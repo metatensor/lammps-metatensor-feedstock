@@ -1,0 +1,37 @@
+{% set version = "0.0.1" %}
+
+package:
+  name: lammps-metatensor
+  version: {{ version }}
+
+source:
+  git_url: https://github.com/metatensor/lammps.git
+  git_depth: 1 # (Defaults to -1/not shallow)
+
+build:
+  skip: true  # [win]
+  number: 0
+
+requirements:
+  build:
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - rust
+    - cmake
+  host:
+    - libtorch  =*=cpu*
+
+about:
+  home: https://docs.metatensor.org/latest/index.html
+  license: BSD-3-Clause
+  license_family: BSD
+  summary: 'Metatensor-enabled version of LAMMPS'
+  description: |
+    Metatensor-enabled version of LAMMPS
+  doc_url: https://docs.lammps.org/Manual.html
+  dev_url: https://github.com/metatensor/lammps
+
+extra:
+  recipe-maintainers:
+    - abmazitov
+
