@@ -21,12 +21,30 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - CONFIG: linux_64_
+          - CONFIG: linux_64_mpimpich
             UPLOAD_PACKAGES: True
             os: ubuntu
             runs_on: ['ubuntu-latest']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-          - CONFIG: osx_64_
+          - CONFIG: linux_64_mpinompi
+            UPLOAD_PACKAGES: True
+            os: ubuntu
+            runs_on: ['ubuntu-latest']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+          - CONFIG: linux_64_mpiopenmpi
+            UPLOAD_PACKAGES: True
+            os: ubuntu
+            runs_on: ['ubuntu-latest']
+            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
+          - CONFIG: osx_64_mpimpich
+            UPLOAD_PACKAGES: True
+            os: macos
+            runs_on: ['macos-13']
+          - CONFIG: osx_64_mpinompi
+            UPLOAD_PACKAGES: True
+            os: macos
+            runs_on: ['macos-13']
+          - CONFIG: osx_64_mpiopenmpi
             UPLOAD_PACKAGES: True
             os: macos
             runs_on: ['macos-13']

@@ -11,7 +11,7 @@ Summary: Metatensor-enabled version of LAMMPS
 
 Development: https://github.com/metatensor/lammps
 
-Documentation: https://docs.lammps.org/Manual.html
+Documentation: https://docs.metatensor.org/latest/atomistic/engines/lammps.html
 
 Metatensor-enabled version of LAMMPS
 

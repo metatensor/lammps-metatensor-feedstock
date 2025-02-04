@@ -1,3 +1,4 @@
+{% set build = 0 %}
 {% set version = "0.0.1" %}
 
 package:
@@ -9,27 +10,39 @@ source:
   git_depth: 1 # (Defaults to -1/not shallow)
 
 build:
+  number: {{ build }}
+  {% if mpi != 'nompi' %}
+  {% set mpi_prefix = "mpi_" + mpi %}
+  {% else %}
+  {% set mpi_prefix = "nompi" %}
+  {% endif %}
   skip: true  # [win]
-  number: 0
+  string: cpu_py{{ CONDA_PY }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_{{ PKG_BUILDNUM }}
+
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - {{ stdlib("c") }}
     - rust
     - make
     - cmake
   host:
+    - {{ mpi }}  # [mpi != 'nompi']
     - libtorch  =*=cpu*
+  run:
+    - {{ mpi }}  # [mpi != 'nompi']
 
 about:
   home: https://docs.metatensor.org/latest/index.html
   license: BSD-3-Clause
   license_family: BSD
+  license_file: '{{ environ["RECIPE_DIR"] }}/LICENSE'
   summary: 'Metatensor-enabled version of LAMMPS'
   description: |
     Metatensor-enabled version of LAMMPS
-  doc_url: https://docs.lammps.org/Manual.html
+  doc_url: https://docs.metatensor.org/latest/atomistic/engines/lammps.html
   dev_url: https://github.com/metatensor/lammps
 
 extra:

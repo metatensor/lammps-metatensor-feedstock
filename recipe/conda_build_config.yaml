@@ -1,8 +1,11 @@
-# Please consult conda-forge/core before doing this
 c_stdlib_version:          # [osx and x86_64]
   - "10.15"                # [osx and x86_64]
 MACOSX_SDK_VERSION:        # [osx and x86_64]
   - "13.3"                # [osx and x86_64]
+mpi:
+- mpich
+- openmpi
+- nompi
 
 channel_targets:
   - abmazitov main
