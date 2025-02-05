@@ -1,5 +1,13 @@
-{% set build = 0 %}
 {% set version = "0.0.1" %}
+{% set build = 0 %}
+{% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
+
+# Use a higher build number for the CUDA variant, to ensure that it's
+# preferred by conda's solver, and it's preferentially
+# installed where the platform supports it.
+{% if cuda_compiler_version != "None" %}
+{% set build = build + 200 %}
+{% endif %}
 
 package:
   name: lammps-metatensor
@@ -7,8 +15,10 @@ package:
 
 source:
   git_url: https://github.com/metatensor/lammps.git
-  git_depth: 1 # (Defaults to -1/not shallow)
-
+  depth: 1
+{% if cuda_compiler_version != "None" %}
+  git_rev: kokkos-pet-mad
+{% endif %}
 build:
   number: {{ build }}
   {% if mpi != 'nompi' %}
@@ -16,8 +26,11 @@ build:
   {% else %}
   {% set mpi_prefix = "nompi" %}
   {% endif %}
-  skip: true  # [win]
-  string: cpu_py{{ CONDA_PY }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_{{ PKG_BUILDNUM }}
+  skip: True  # [win]
+  skip: True  # [cuda_compiler_version == "10.2"]
+  skip: True  # [cuda_compiler_version == "11.2"]
+  string: cuda{{ cuda_compiler_version | replace('.', '') }}_py{{ CONDA_PY }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
+  string: cpu_py{{ CONDA_PY }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_{{ PKG_BUILDNUM }} # [cuda_compiler_version == "None"]
 
 
 requirements:
@@ -25,6 +38,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ stdlib("c") }}
+    - {{ compiler('cuda') }}    # [cuda_compiler_version != "None"]
     - rust
     - make
     - cmake
@@ -33,6 +47,7 @@ requirements:
     - libtorch  =*=cpu*
   run:
     - {{ mpi }}  # [mpi != 'nompi']
+    - __cuda  # [cuda_compiler_version != "None"]
 
 about:
   home: https://docs.metatensor.org/latest/index.html
