@@ -31,7 +31,7 @@ cmake -DPKG_ML-METATENSOR=ON \
       -DBUILD_OMP=$BUILD_OMP \
       -DENABLE_MPI=$ENABLE_MPI \
       -DCMAKE_INSTALL_PREFIX=$PREFIX \
-      $args
+      $args \
       ../cmake
 
 cmake --build . --parallel ${CPU_COUNT} -- VERBOSE=1
