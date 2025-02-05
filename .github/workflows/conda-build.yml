@@ -51,15 +51,15 @@ jobs:
           - CONFIG: osx_arm64_mpimpich
             UPLOAD_PACKAGES: True
             os: macos
-            runs_on: ['macos-13']
+            runs_on: ['macos-14']
           - CONFIG: osx_arm64_mpinompi
             UPLOAD_PACKAGES: True
             os: macos
-            runs_on: ['macos-13']
+            runs_on: ['macos-14']
           - CONFIG: osx_arm64_mpiopenmpi
             UPLOAD_PACKAGES: True
             os: macos
-            runs_on: ['macos-13']
+            runs_on: ['macos-14']
     steps:
 
     - name: Checkout code
