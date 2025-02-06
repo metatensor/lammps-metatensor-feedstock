@@ -46,7 +46,10 @@ requirements:
     - cmake
   host:
     - {{ mpi }}  # [mpi != 'nompi']
-    - cudatoolkit  # [cuda_compiler_version != "None"]
+    - cuda-version {{ environ.get("cuda_compiler_version") }}.*  # [cuda_compiler_version != "None"]
+{% if cuda_major == 11 %}
+    - cudatoolkit {{ environ.get("cuda_compiler_version") }}.*
+{% endif %}
     - libtorch  =*=cpu*
   run:
     - {{ mpi }}  # [mpi != 'nompi']
