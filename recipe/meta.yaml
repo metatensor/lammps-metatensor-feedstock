@@ -46,9 +46,14 @@ requirements:
     - cmake
   host:
     - {{ mpi }}  # [mpi != 'nompi']
+      # Will get nvcc linker warnings if the cudatoolkit version doesn't match
     - cuda-version {{ environ.get("cuda_compiler_version") }}.*  # [cuda_compiler_version != "None"]
 {% if cuda_major == 11 %}
     - cudatoolkit {{ environ.get("cuda_compiler_version") }}.*
+{% endif %}
+{% if cuda_major == 12 %}
+    - cuda-cudart-dev
+    - cuda-driver-dev   # [not win]
 {% endif %}
     - libtorch  =*=cpu*
   run:
