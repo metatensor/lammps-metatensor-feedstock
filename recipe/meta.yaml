@@ -46,6 +46,7 @@ requirements:
     - cmake
   host:
     - {{ mpi }}  # [mpi != 'nompi']
+    - cudatoolkit  # [cuda_compiler_version != "None"]
     - libtorch  =*=cpu*
   run:
     - {{ mpi }}  # [mpi != 'nompi']
