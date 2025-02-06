@@ -48,6 +48,12 @@ requirements:
     - cmake
   host:
     - {{ mpi }}  # [mpi != 'nompi']
+  {% if cuda_major == 11 %}
+    - conda install cudatoolkit cuda-version=11
+{% endif %}
+{% if cuda_major == 12 %}
+    - conda install cuda-cudart cuda-version=12
+{% endif %}
     - libtorch  =*=cpu*
   run:
     - {{ mpi }}  # [mpi != 'nompi']
