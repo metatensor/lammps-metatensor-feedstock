@@ -43,10 +43,10 @@ requirements:
     - {{ compiler('cuda') }}    # [cuda_compiler_version != "None"]
     - rust
     - make
+    - cudatoolkit # [cuda_compiler_version != "None"]
     - cmake
   host:
     - {{ mpi }}  # [mpi != 'nompi']
-    - cudatoolkit # [cuda_compiler_version != "None"]
     - libtorch  =*=cpu*
   run:
     - {{ mpi }}  # [mpi != 'nompi']
