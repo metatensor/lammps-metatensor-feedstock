@@ -33,6 +33,8 @@ build:
     - cudatoolkit               # [cuda_compiler_version != "None"]
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_py{{ CONDA_PY }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   string: cpu_py{{ CONDA_PY }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_{{ PKG_BUILDNUM }} # [cuda_compiler_version == "None"]
+  script_env:
+    - Kokkos_OPT_ARGS=-DKokkos_ARCH_HOPPER90=ON # [cuda_compiler_version != "None"]
 
 
 requirements:
@@ -46,15 +48,6 @@ requirements:
     - cmake
   host:
     - {{ mpi }}  # [mpi != 'nompi']
-      # Will get nvcc linker warnings if the cudatoolkit version doesn't match
-    - cuda-version {{ environ.get("cuda_compiler_version") }}.*  # [cuda_compiler_version != "None"]
-{% if cuda_major == 11 %}
-    - cudatoolkit {{ environ.get("cuda_compiler_version") }}.*
-{% endif %}
-{% if cuda_major == 12 %}
-    - cuda-cudart-dev
-    - cuda-driver-dev   # [not win]
-{% endif %}
     - libtorch  =*=cpu*
   run:
     - {{ mpi }}  # [mpi != 'nompi']
