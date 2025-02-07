@@ -48,12 +48,13 @@ requirements:
     - cmake=3.28
   host:
     - {{ mpi }}  # [mpi != 'nompi']
-  {% if cuda_major == 11 %}
+{% if cuda_major == 11 %}
     - cuda-version=11
     - cudatoolkit
 {% endif %}
 {% if cuda_major == 12 %}
     - cuda-version=12
+    - cudatoolkit
     - cuda-cudart
 {% endif %}
     - libtorch  =*=cpu*
