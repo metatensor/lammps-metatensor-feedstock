@@ -50,11 +50,11 @@ requirements:
     - {{ mpi }}  # [mpi != 'nompi']
 {% if cuda_major == 11 %}
     - cuda-version=11
-    - cudatoolkit
+    - cudatoolkit=11
 {% endif %}
 {% if cuda_major == 12 %}
     - cuda-version=12
-    - cudatoolkit
+    - cudatoolkit=12
     - cuda-cudart
 {% endif %}
     - libtorch  =*=cpu*
