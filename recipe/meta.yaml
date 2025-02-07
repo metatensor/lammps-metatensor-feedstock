@@ -54,6 +54,7 @@ requirements:
 {% endif %}
 {% if cuda_major == 12 %}
     - cuda-version=12
+    - cuda-cudart
     - nvidia/label/cuda-12.1.0::cuda-toolkit
 {% endif %}
     - libtorch  =*=cpu*
