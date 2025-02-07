@@ -45,7 +45,7 @@ requirements:
     - {{ compiler('cuda') }}    # [cuda_compiler_version != "None"]
     - rust
     - make
-    - cmake
+    - cmake=3.28
   host:
     - {{ mpi }}  # [mpi != 'nompi']
   {% if cuda_major == 11 %}
