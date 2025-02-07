@@ -9,10 +9,6 @@ mpi:
 - openmpi
 - nompi
 
-channels:
-  - defaults
-  - nvidia
-  - conda-forge
 channel_targets:
   - abmazitov main
 
