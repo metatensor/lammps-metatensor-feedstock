@@ -1,6 +1,7 @@
 {% set version = "4Feb2025" %}
-{% set build = 2 %}
+{% set build = 3 %}
 {% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
+{% set gpu_arch = gpu_arch %}
 
 # Use a higher build number for the CUDA variant, to ensure that it's
 # preferred by conda's solver, and it's preferentially
@@ -34,7 +35,12 @@ build:
   string: cuda{{ cuda_compiler_version | replace('.', '') }}_py{{ CONDA_PY }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
   string: cpu_py{{ CONDA_PY }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_{{ PKG_BUILDNUM }} # [cuda_compiler_version == "None"]
   script_env:
-    - Kokkos_OPT_ARGS=-DKokkos_ARCH_HOPPER90=ON # [cuda_compiler_version != "None"]
+{% if cuda_major == 11 %}
+    - Kokkos_OPT_ARGS=-DKokkos_ARCH_KEPLER35=ON
+{% endif %}
+{% if cuda_major == 12 %}
+    - Kokkos_OPT_ARGS=-DKokkos_ARCH_MAXWELL50=ON
+{% endif %}
 
 
 requirements:
@@ -57,8 +63,7 @@ requirements:
     - cuda-cudart # [cuda_compiler_version != "None"]
     - nvidia/label/cuda-12.1.0::cuda-toolkit # [cuda_compiler_version != "None"]
 {% endif %}
-    - libtorch  =*=cpu* # [cuda_compiler_version == "None"]
-    - libtorch  =*=cuda* # [cuda_compiler_version != "None"]
+    - libtorch  =*=cpu*
   run:
     - {{ mpi }}  # [mpi != 'nompi']
     - __cuda  # [cuda_compiler_version != "None"]
