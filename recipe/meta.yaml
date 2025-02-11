@@ -1,5 +1,5 @@
 {% set version = "4Feb2025" %}
-{% set build = 3 %}
+{% set build = 4 %}
 {% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
 {% set gpu_arch = gpu_arch %}
 
