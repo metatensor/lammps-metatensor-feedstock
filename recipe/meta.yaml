@@ -11,7 +11,9 @@
 
 {% if mpi == 'mpich' %}
 {% set build = build + 50 %}
-{% elif mpi == 'openmpi' %}
+{% endif %}
+
+{% if mpi == 'openmpi' %}
 {% set build = build + 100 %}
 {% endif %}
 
