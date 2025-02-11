@@ -54,16 +54,16 @@ requirements:
     - cmake=3.28
   host:
     - {{ mpi }}  # [mpi != 'nompi']
-{% if cuda_major == 11 %}
-    - cuda-version=11 # [cuda_compiler_version != "None"]
-    - cudatoolkit # [cuda_compiler_version != "None"]
-{% endif %}
-{% if cuda_major == 12 %}
-    - cuda-version=12 # [cuda_compiler_version != "None"]
-    - cuda-cudart # [cuda_compiler_version != "None"]
-    - nvidia/label/cuda-12.1.0::cuda-toolkit # [cuda_compiler_version != "None"]
-{% endif %}
-    - libtorch  =*=cpu*
+    - cuda-version {{ environ.get("cuda_compiler_version") }}.*  # [cuda_compiler_version != "None"]
+    {% if cuda_major == 11 %}
+        - cudatoolkit {{ environ.get("cuda_compiler_version") }}.*
+    {% endif %}
+    {% if cuda_major == 12 %}
+        - cuda-cudart-dev
+        - cuda-driver-dev
+    {% endif %}
+    - libtorch  =*=cpu*  # [cuda_compiler_version == "None"]
+    - libtorch  =*=cuda{{ cuda_compiler_version | replace('.', '') }}*  # [cuda_compiler_version != "None"]
   run:
     - {{ mpi }}  # [mpi != 'nompi']
     - __cuda  # [cuda_compiler_version != "None"]

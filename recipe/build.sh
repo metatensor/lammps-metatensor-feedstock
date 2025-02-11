@@ -31,6 +31,7 @@ cmake -DPKG_ML-METATENSOR=ON \
       -DBUILD_OMP=$BUILD_OMP \
       -DENABLE_MPI=$ENABLE_MPI \
       -DCMAKE_INSTALL_PREFIX=$PREFIX \
+      -DCUDA_TOOLKIT_ROOT_DIR=$CONDA_PREFIX/targets/x86_64-linux \
       $args \
       ../cmake
 
