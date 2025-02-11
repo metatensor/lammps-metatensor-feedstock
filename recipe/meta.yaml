@@ -1,7 +1,6 @@
 {% set version = "4Feb2025" %}
-{% set build = 4 %}
+{% set build = 5 %}
 {% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
-{% set gpu_arch = gpu_arch %}
 
 # Use a higher build number for the CUDA variant, to ensure that it's
 # preferred by conda's solver, and it's preferentially
@@ -9,6 +8,13 @@
 {% if cuda_compiler_version != "None" %}
 {% set build = build + 200 %}
 {% endif %}
+
+{% if mpi == 'mpich' %}
+{% set build = build + 50 %}
+{% elif mpi == 'openmpi' %}
+{% set build = build + 100 %}
+{% endif %}
+
 
 package:
   name: lammps-metatensor
