@@ -8,7 +8,7 @@ if [[ "$PLATFORM" == 'Darwin' ]]; then
 else
   BUILD_OMP=ON
   if [[ ${cuda_compiler_version} != "None" ]]; then
-    args=$args" -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON ${Kokkos_OPT_ARGS} -DCUDAToolkit_INCLUDE_DIR=/usr/local/cuda-${cuda_compiler_version}/include -DCUDAToolkit_LIBRARY_DIR=/usr/local/cuda-${cuda_compiler_version}/lib "
+    args=$args" -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON ${Kokkos_OPT_ARGS} "
   fi
 fi
 
