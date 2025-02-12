@@ -63,13 +63,7 @@ requirements:
   host:
     - {{ mpi }}  # [mpi != 'nompi']
     - cuda-version {{ environ.get("cuda_compiler_version") }}.*  # [cuda_compiler_version != "None"]
-    {% if cuda_major == 11 %}
-    - cudatoolkit {{ environ.get("cuda_compiler_version") }}.*
-    {% endif %}
-    {% if cuda_major == 12 %}
-    - cuda-cudart-dev
-    - cuda-driver-dev
-    {% endif %}
+    - nvidia/label/cuda-{{ environ.get("cuda_compiler_version") }}.*::cuda-toolkit # [cuda_compiler_version != "None"]
     - libtorch  =*=cpu*  # [cuda_compiler_version == "None"]
     - libtorch  =*=cuda{{ cuda_compiler_version | replace('.', '') }}*  # [cuda_compiler_version != "None"]
   run:

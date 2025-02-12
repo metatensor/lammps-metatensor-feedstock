@@ -8,7 +8,8 @@ if [[ "$PLATFORM" == 'Darwin' ]]; then
 else
   BUILD_OMP=ON
   if [[ ${cuda_compiler_version} != "None" ]]; then
-    args=$args" -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON ${Kokkos_OPT_ARGS} "
+    CUDA_TOOLKIT_ROOT_DIR=$CONDA_PREFIX/targets/x86_64-linux
+    args=$args" -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON ${Kokkos_OPT_ARGS} -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR "
   fi
 fi
 
@@ -18,6 +19,7 @@ else
   ENABLE_MPI=TRUE
   export LDFLAGS="-lmpi ${LDFLAGS}"
 fi
+
 
 mkdir build && cd build
 
@@ -31,7 +33,6 @@ cmake -DPKG_ML-METATENSOR=ON \
       -DBUILD_OMP=$BUILD_OMP \
       -DENABLE_MPI=$ENABLE_MPI \
       -DCMAKE_INSTALL_PREFIX=$PREFIX \
-      -DCUDA_TOOLKIT_ROOT_DIR=$CONDA_PREFIX/targets/x86_64-linux \
       $args \
       ../cmake
 
