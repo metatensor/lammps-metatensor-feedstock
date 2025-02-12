@@ -1,5 +1,5 @@
 {% set version = "4Feb2025" %}
-{% set build = 6 %}
+{% set build = 7 %}
 {% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
 
 # Use a higher build number for the CUDA variant, to ensure that it's
@@ -63,7 +63,14 @@ requirements:
   host:
     - {{ mpi }}  # [mpi != 'nompi']
     - cuda-version {{ environ.get("cuda_compiler_version") }}.*  # [cuda_compiler_version != "None"]
+    {% if cuda_major == 11 %}
+    - cudatoolkit {{ environ.get("cuda_compiler_version") }}.*
+    {% endif %}
+    {% if cuda_major == 12 %}
     - nvidia/label/cuda-{{ environ.get("cuda_compiler_version") }}.*::cuda-toolkit # [cuda_compiler_version != "None"]
+    - cuda-cudart-dev
+    - cuda-driver-dev
+    {% endif %}
     - libtorch  =*=cpu*  # [cuda_compiler_version == "None"]
     - libtorch  =*=cuda{{ cuda_compiler_version | replace('.', '') }}*  # [cuda_compiler_version != "None"]
   run:
