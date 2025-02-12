@@ -1,5 +1,5 @@
 {% set version = "4Feb2025" %}
-{% set build = 7 %}
+{% set build = 8 %}
 {% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
 
 # Use a higher build number for the CUDA variant, to ensure that it's

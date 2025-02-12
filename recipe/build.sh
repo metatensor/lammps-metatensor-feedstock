@@ -8,7 +8,7 @@ if [[ "$PLATFORM" == 'Darwin' ]]; then
 else
   BUILD_OMP=ON
   if [[ ${cuda_compiler_version} != "None" ]]; then
-    CUDA_TOOLKIT_ROOT_DIR=$CONDA_PREFIX/targets/x86_64-linux
+    CUDA_TOOLKIT_ROOT_DIR=$BUILD_PREFIX/targets/x86_64-linux
     args=$args" -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON ${Kokkos_OPT_ARGS} -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR "
   fi
 fi
