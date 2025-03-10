@@ -11,5 +11,5 @@ mpi:
   - nompi
 
 channel_targets:
-  - abmazitov main
+  - metatensor main
 
