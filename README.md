@@ -28,19 +28,19 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-lammps--metatensor-green.svg)](https://anaconda.org/abmazitov/lammps-metatensor) | [![Conda Downloads](https://img.shields.io/conda/dn/abmazitov/lammps-metatensor.svg)](https://anaconda.org/abmazitov/lammps-metatensor) | [![Conda Version](https://img.shields.io/conda/vn/abmazitov/lammps-metatensor.svg)](https://anaconda.org/abmazitov/lammps-metatensor) | [![Conda Platforms](https://img.shields.io/conda/pn/abmazitov/lammps-metatensor.svg)](https://anaconda.org/abmazitov/lammps-metatensor) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-lammps--metatensor-green.svg)](https://anaconda.org/metatensor/lammps-metatensor) | [![Conda Downloads](https://img.shields.io/conda/dn/metatensor/lammps-metatensor.svg)](https://anaconda.org/metatensor/lammps-metatensor) | [![Conda Version](https://img.shields.io/conda/vn/metatensor/lammps-metatensor.svg)](https://anaconda.org/metatensor/lammps-metatensor) | [![Conda Platforms](https://img.shields.io/conda/pn/metatensor/lammps-metatensor.svg)](https://anaconda.org/metatensor/lammps-metatensor) |
 
 Installing lammps-metatensor
 ============================
 
-Installing `lammps-metatensor` from the `abmazitov` channel can be achieved by adding `abmazitov` to your channels with:
+Installing `lammps-metatensor` from the `metatensor` channel can be achieved by adding `metatensor` to your channels with:
 
 ```
-conda config --add channels abmazitov
+conda config --add channels metatensor
 conda config --set channel_priority strict
 ```
 
-Once the `abmazitov` channel has been enabled, `lammps-metatensor` can be installed with `conda`:
+Once the `metatensor` channel has been enabled, `lammps-metatensor` can be installed with `conda`:
 
 ```
 conda install lammps-metatensor
@@ -55,26 +55,26 @@ mamba install lammps-metatensor
 It is possible to list all of the versions of `lammps-metatensor` available on your platform with `conda`:
 
 ```
-conda search lammps-metatensor --channel abmazitov
+conda search lammps-metatensor --channel metatensor
 ```
 
 or with `mamba`:
 
 ```
-mamba search lammps-metatensor --channel abmazitov
+mamba search lammps-metatensor --channel metatensor
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search lammps-metatensor --channel abmazitov
+mamba repoquery search lammps-metatensor --channel metatensor
 
 # List packages depending on `lammps-metatensor`:
-mamba repoquery whoneeds lammps-metatensor --channel abmazitov
+mamba repoquery whoneeds lammps-metatensor --channel metatensor
 
 # List dependencies of `lammps-metatensor`:
-mamba repoquery depends lammps-metatensor --channel abmazitov
+mamba repoquery depends lammps-metatensor --channel metatensor
 ```
 
 
@@ -88,8 +88,8 @@ package version, please fork this repository and submit a PR. Upon submission,
 your changes will be run on the appropriate platforms to give the reviewer an
 opportunity to confirm that the changes result in a successful build. Once
 merged, the recipe will be re-built and uploaded automatically to the
-`abmazitov` channel, whereupon the built conda packages will be available for
-everybody to install and use from the `abmazitov` channel.
+`metatensor` channel, whereupon the built conda packages will be available for
+everybody to install and use from the `metatensor` channel.
 Note that all branches in the abmazitov/lammps-metatensor-feedstock are
 immediately built and any created packages are uploaded, so PRs should be based
 on branches in forks and branches in the main repository should only be used to
