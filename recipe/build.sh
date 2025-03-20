@@ -11,6 +11,12 @@ else
     CUDA_TOOLKIT_ROOT_DIR=$BUILD_PREFIX/targets/x86_64-linux
     args=$args" -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON ${Kokkos_OPT_ARGS} -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR "
   fi
+  # PLUMED (for now only available on linux)
+  CC=x86_64-conda-linux-gnu-gcc
+  CXX=x86_64-conda-linux-gnu-g++
+  MPICC=mpicc
+  MPICXX=mpicxx
+  args=$args" -DPKG_PLUMED=ON -DCMAKE_C_COMPILER=$CC -DCMAKE_CXX_COMPILER=$CXX -DCMAKE_MPI_C_COMPILER=$MPICC -DCMAKE_MPI_CXX_COMPILER=$MPICXX "
 fi
 
 # Parallel and library
@@ -19,14 +25,8 @@ export LD_LIBRARY_PATH="$PREFIX/lib:$LD_LIBRARY_PATH"
 
 if [ "${mpi}" == "nompi" ]; then
   ENABLE_MPI=OFF
-  CC=x86_64-conda-linux-gnu-gcc
-  CXX=x86_64-conda-linux-gnu-g++
 else
   ENABLE_MPI=TRUE
-  CC=x86_64-conda-linux-gnu-gcc
-  CXX=x86_64-conda-linux-gnu-g++
-  MPICC=mpicc
-  MPICXX=mpicxx
   export LDFLAGS="-lmpi ${LDFLAGS}"
 fi
 
@@ -37,7 +37,6 @@ cmake -DPKG_ML-METATENSOR=ON \
       -DLAMMPS_INSTALL_RPATH=ON \
       -DCMAKE_PREFIX_PATH="$TORCH_PREFIX" \
       -DPKG_REPLICA=ON \
-      -DPKG_PLUMED=ON \
       -DPKG_MC=ON \
       -DPKG_MOLECULE=ON \
       -DPKG_MISC=ON \
@@ -56,10 +55,6 @@ cmake -DPKG_ML-METATENSOR=ON \
       -DCMAKE_INSTALL_PREFIX=$PREFIX \
       -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=TRUE \
       -DCMAKE_INSTALL_RPATH=$PREFIX/lib \
-      -DCMAKE_C_COMPILER=$CC \
-      -DCMAKE_CXX_COMPILER=$CXX \
-      -DCMAKE_MPI_C_COMPILER=$MPICC \
-      -DCMAKE_MPI_CXX_COMPILER=$MPICXX \
       $args \
       ../cmake
 
