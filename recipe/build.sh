@@ -19,8 +19,12 @@ export LD_LIBRARY_PATH="$PREFIX/lib:$LD_LIBRARY_PATH"
 
 if [ "${mpi}" == "nompi" ]; then
   ENABLE_MPI=OFF
+  CC=
+  CXX=
 else
   ENABLE_MPI=TRUE
+  MPICC=mpicc
+  MPICXX=mpicxx
   export LDFLAGS="-lmpi ${LDFLAGS}"
 fi
 
@@ -32,7 +36,6 @@ cmake -DPKG_ML-METATENSOR=ON \
       -DCMAKE_PREFIX_PATH="$TORCH_PREFIX" \
       -DPKG_REPLICA=ON \
       -DPKG_PLUMED=ON \
-      -DPLUMED_MODE=runtime \
       -DPKG_MC=ON \
       -DPKG_MOLECULE=ON \
       -DPKG_MISC=ON \
@@ -43,13 +46,16 @@ cmake -DPKG_ML-METATENSOR=ON \
       -DPKG_RIGID=ON \
       -DPKG_SHOCK=ON \
       -DPKG_SPIN=ON \
-      -DKG_VORONOI=ON \
-      -DEXTRA_PAIR=ON \
+      -DPKG_VORONOI=ON \
+      -DPKG_MPIIO=$ENABLE_MPI \
+      -DPKG_EXTRA_PAIR=ON \
       -DBUILD_OMP=$BUILD_OMP \
       -DENABLE_MPI=$ENABLE_MPI \
       -DCMAKE_INSTALL_PREFIX=$PREFIX \
       -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=TRUE \
       -DCMAKE_INSTALL_RPATH=$PREFIX/lib \
+      -DCMAKE_MPI_C_COMPILER=$MPICC \
+      -DCMAKE_MPI_CXX_COMPILER=$MPICXX \
       $args \
       ../cmake
 
