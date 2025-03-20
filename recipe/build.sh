@@ -12,11 +12,13 @@ else
     args=$args" -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON ${Kokkos_OPT_ARGS} -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR "
   fi
   # PLUMED (for now only available on linux)
-  CC=x86_64-conda-linux-gnu-gcc
-  CXX=x86_64-conda-linux-gnu-g++
-  MPICC=mpicc
-  MPICXX=mpicxx
-  args=$args" -DPKG_PLUMED=ON -DCMAKE_C_COMPILER=$CC -DCMAKE_CXX_COMPILER=$CXX -DCMAKE_MPI_C_COMPILER=$MPICC -DCMAKE_MPI_CXX_COMPILER=$MPICXX "
+  args=$args" -DPKG_PLUMED=ON "
+  if [[ ${mpi} != "nompi" ]]; then
+    MPICC=mpicc
+    MPICXX=mpicxx
+    args=$args" -DPLUMED_CONFIG_CC=$MPICC -DPLUMED_CONFIG_CXX=$MPICXX "
+  fi
+
 fi
 
 # Parallel and library
