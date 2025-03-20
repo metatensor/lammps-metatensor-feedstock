@@ -26,8 +26,6 @@ fftw:
 - '3'
 gsl:
 - '2.7'
-mkl:
-- '2024'
 mpi:
 - openmpi
 mpich:
