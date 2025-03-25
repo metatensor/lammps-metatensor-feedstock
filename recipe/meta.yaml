@@ -1,5 +1,5 @@
 {% set version = "27Jun2024" %}
-{% set build = 2 %}
+{% set build = 3 %}
 {% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
 
 # Use a higher build number for the CUDA variant, to ensure that it's
@@ -75,15 +75,16 @@ requirements:
     - libtorch  =*=cuda{{ cuda_compiler_version | replace('.', '') }}*  # [cuda_compiler_version != "None"]
     - fftw
     - fftw * {{ mpi_prefix }}_*
-    - mkl # [target_platform == linux-64]
+    - mkl # [linux]
     - gsl
     - voro
     # https://github.com/lammps/lammps/blob/8389e2eb8074712b6850b3bf25fd3c3852e36f10/src/PLUMED/fix_plumed.cpp#L80-L82
     - plumed >=2.4,<2.10 # [target_platform == linux-64]
-    - plumed * {{ mpi_prefix }}_*  # [target_platform == linux-64 and mpi != 'nompi' and build_platform == target_platform]
+    - plumed * {{ mpi_prefix }}_*  # [linux and mpi != 'nompi' and build_platform == target_platform]
   run:
     - {{ mpi }}  # [mpi != 'nompi']
     - __cuda  # [cuda_compiler_version != "None"]
+    - mkl # [linux]
     - libtorch  =*=cpu*  # [cuda_compiler_version == "None"]
     - libtorch  =*=cuda{{ cuda_compiler_version | replace('.', '') }}*  # [cuda_compiler_version != "None"]
 
