@@ -1,5 +1,8 @@
-{% set version = "27Jun2024" %}
-{% set build = 4 %}
+{% set version = "4Feb2025" %}
+{% set build = 0 %}
+{% set git_rev = "ac1009d905c804856aee9b420e762fcfaf413f63" %}
+
+
 {% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
 
 # Use a higher build number for the CUDA variant, to ensure that it's
@@ -24,12 +27,12 @@ package:
 
 source:
   git_url: https://github.com/metatensor/lammps.git
+  git_rev: {{ git_rev }}
   depth: 1
-{% if cuda_compiler_version != "None" %}
-  git_rev: kokkos-pet-mad
-{% endif %}
+
 build:
   number: {{ build }}
+
   {% if mpi != 'nompi' %}
   {% set mpi_prefix = "mpi_" + mpi %}
   {% else %}
@@ -40,8 +43,8 @@ build:
   skip: True  # [cuda_compiler_version == "11.2"]
   track_features:
     - cudatoolkit               # [cuda_compiler_version != "None"]
-  string: cuda{{ cuda_compiler_version | replace('.', '') }}_py{{ CONDA_PY }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
-  string: cpu_py{{ CONDA_PY }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_{{ PKG_BUILDNUM }} # [cuda_compiler_version == "None"]
+  string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
+  string: cpu_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }} # [cuda_compiler_version == "None"]
   script_env:
 {% if cuda_major == 11 %}
     - Kokkos_OPT_ARGS=-DKokkos_ARCH_KEPLER35=ON
