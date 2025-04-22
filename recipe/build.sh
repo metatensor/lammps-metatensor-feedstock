@@ -11,13 +11,6 @@ else
   #   CUDA_TOOLKIT_ROOT_DIR=$BUILD_PREFIX/targets/x86_64-linux
   #   args=$args" -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON ${Kokkos_OPT_ARGS} -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR "
   # fi
-  # PLUMED (for now only available on linux)
-  args=$args" -DPKG_PLUMED=ON "
-  if [[ ${mpi} != "nompi" ]]; then
-    MPICC=mpicc
-    MPICXX=mpicxx
-    args=$args" -DPLUMED_CONFIG_CC=$MPICC -DPLUMED_CONFIG_CXX=$MPICXX "
-  fi
 fi
 
 # Parallel and library
@@ -34,21 +27,24 @@ fi
 
 mkdir build && cd build
 
-cmake -DPKG_ML-METATENSOR=ON \
-      -DLAMMPS_INSTALL_RPATH=ON \
+cmake -DLAMMPS_INSTALL_RPATH=ON \
       -DCMAKE_PREFIX_PATH="$TORCH_PREFIX" \
       -DPKG_REPLICA=ON \
       -DPKG_MC=ON \
       -DPKG_MOLECULE=ON \
       -DPKG_MISC=ON \
+      -DPKG_PLUMED=ON \
+      -DDOWNLOAD_PLUMED=OFF \
+      -DPLUMED_MODE="shared" \
       -DPKG_KSPACE=ON \
       -DPKG_MANIFOLD=ON \
+      -DPKG_ML-METATENSOR=ON \
+      -DDOWNLOAD_METATENSOR=OFF \
       -DPKG_QTB=ON \
       -DPKG_REACTION=ON \
       -DPKG_RIGID=ON \
       -DPKG_SHOCK=ON \
       -DPKG_SPIN=ON \
-      -DPKG_VORONOI=ON \
       -DPKG_MPIIO=$ENABLE_MPI \
       -DPKG_EXTRA_PAIR=ON \
       -DBUILD_OMP=$BUILD_OMP \
@@ -56,7 +52,6 @@ cmake -DPKG_ML-METATENSOR=ON \
       -DCMAKE_INSTALL_PREFIX=$PREFIX \
       -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=TRUE \
       -DCMAKE_INSTALL_RPATH=$PREFIX/lib \
-      -DDOWNLOAD_METATENSOR=OFF \
       $args \
       ../cmake
 
