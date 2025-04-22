@@ -6,15 +6,15 @@
 # preferred by conda's solver, and it's preferentially
 # installed where the platform supports it.
 {% if cuda_compiler_version != "None" %}
-{% set build = build + 200 %}
+{% set build = build + 10000 %}
 {% endif %}
 
 {% if mpi == 'mpich' %}
-{% set build = build + 50 %}
+{% set build = build + 1000 %}
 {% endif %}
 
 {% if mpi == 'openmpi' %}
-{% set build = build + 100 %}
+{% set build = build + 5000 %}
 {% endif %}
 
 
