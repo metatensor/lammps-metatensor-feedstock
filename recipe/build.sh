@@ -29,6 +29,8 @@ mkdir build && cd build
 
 cmake -DLAMMPS_INSTALL_RPATH=ON \
       -DCMAKE_PREFIX_PATH="$TORCH_PREFIX" \
+      -DWITH_JPEG=OFF \
+      -DWITH_PNG=OFF \
       -DPKG_REPLICA=ON \
       -DPKG_MC=ON \
       -DPKG_MOLECULE=ON \
