@@ -83,7 +83,6 @@ requirements:
     # {% endif %}
     - fftw
     - fftw * {{ mpi_prefix }}_*
-    - mkl # [linux]
     - plumed
     - libmetatensor-torch >=0.7.5,<0.8.0
     # always build against the CPU version of libtorch, we can still pick the
@@ -92,7 +91,6 @@ requirements:
   run:
     - {{ mpi }}  # [mpi != 'nompi']
     # - __cuda     # [cuda_compiler_version != "None"]
-    - mkl        # [linux]
     - plumed
     - libmetatensor-torch >=0.7.5,<0.8.0
 
