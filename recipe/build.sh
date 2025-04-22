@@ -7,10 +7,10 @@ if [[ "$PLATFORM" == 'Darwin' ]]; then
   BUILD_OMP=OFF
 else
   BUILD_OMP=ON
-  if [[ ${cuda_compiler_version} != "None" ]]; then
-    CUDA_TOOLKIT_ROOT_DIR=$BUILD_PREFIX/targets/x86_64-linux
-    args=$args" -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON ${Kokkos_OPT_ARGS} -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR "
-  fi
+  # if [[ ${cuda_compiler_version} != "None" ]]; then
+  #   CUDA_TOOLKIT_ROOT_DIR=$BUILD_PREFIX/targets/x86_64-linux
+  #   args=$args" -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON ${Kokkos_OPT_ARGS} -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR "
+  # fi
   # PLUMED (for now only available on linux)
   args=$args" -DPKG_PLUMED=ON "
   if [[ ${mpi} != "nompi" ]]; then
@@ -18,7 +18,6 @@ else
     MPICXX=mpicxx
     args=$args" -DPLUMED_CONFIG_CC=$MPICC -DPLUMED_CONFIG_CXX=$MPICXX "
   fi
-
 fi
 
 # Parallel and library
@@ -57,14 +56,15 @@ cmake -DPKG_ML-METATENSOR=ON \
       -DCMAKE_INSTALL_PREFIX=$PREFIX \
       -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=TRUE \
       -DCMAKE_INSTALL_RPATH=$PREFIX/lib \
+      -DDOWNLOAD_METATENSOR=OFF \
       $args \
       ../cmake
 
 cmake --build . --parallel ${CPU_COUNT} -- VERBOSE=1
 cmake --build . --target install
 
-if [ "${mpi}" == "nompi" ]; then
-  cp lmp ${PREFIX}/bin/lmp_serial
-else
-  cp lmp ${PREFIX}/bin/lmp_mpi
-fi
+# if [ "${mpi}" == "nompi" ]; then
+#   cp lmp ${PREFIX}/bin/lmp_serial
+# else
+#   cp lmp ${PREFIX}/bin/lmp_mpi
+# fi
