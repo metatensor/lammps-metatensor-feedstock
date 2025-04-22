@@ -96,6 +96,12 @@ requirements:
     - plumed
     - libmetatensor-torch >=0.7.5,<0.8.0
 
+test:
+  commands:
+    - export OMPI_MCA_plm_rsh_agent=false
+    - lmp -h  # [mpi == 'nompi']
+    - mpirun -np 2 lmp -h  # [mpi != 'nompi']
+
 about:
   home: https://docs.metatensor.org/metatomic/latest/engines/lammps.html
   license:  GPL-2.0-only
