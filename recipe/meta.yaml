@@ -1,4 +1,7 @@
 {% set version = "4Feb2025" %}
+{% set date = datetime.datetime.strptime(version, "%d%b%Y") %}
+{% set conda_version = "{:%Y.%m.%d}".format(date) %}
+
 {% set build = 0 %}
 {% set git_rev = "ac1009d905c804856aee9b420e762fcfaf413f63" %}
 
@@ -29,7 +32,7 @@
 
 package:
   name: lammps-metatensor
-  version: {{ version }}
+  version: {{ conda_version }}
 
 source:
   git_url: https://github.com/metatensor/lammps.git
