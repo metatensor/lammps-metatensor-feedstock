@@ -3,21 +3,27 @@
 {% set git_rev = "ac1009d905c804856aee9b420e762fcfaf413f63" %}
 
 
-{% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
+# {% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
 
-# Use a higher build number for the CUDA variant, to ensure that it's
-# preferred by conda's solver, and it's preferentially
-# installed where the platform supports it.
-{% if cuda_compiler_version != "None" %}
-{% set build = build + 10000 %}
-{% endif %}
+# # Use a higher build number for the CUDA variant, to ensure that it's
+# # preferred by conda's solver, and it's preferentially
+# # installed where the platform supports it.
+# {% if cuda_compiler_version != "None" %}
+# {% set build = build + 10000 %}
+# {% endif %}
 
 {% if mpi == 'mpich' %}
-{% set build = build + 1000 %}
+  {% set build = build + 1000 %}
 {% endif %}
 
 {% if mpi == 'openmpi' %}
-{% set build = build + 5000 %}
+  {% set build = build + 2000 %}
+{% endif %}
+
+{% if mpi != 'nompi' %}
+  {% set mpi_prefix = "mpi_" + mpi %}
+{% else %}
+  {% set mpi_prefix = "nompi" %}
 {% endif %}
 
 
@@ -32,26 +38,21 @@ source:
 
 build:
   number: {{ build }}
-
-  {% if mpi != 'nompi' %}
-  {% set mpi_prefix = "mpi_" + mpi %}
-  {% else %}
-  {% set mpi_prefix = "nompi" %}
-  {% endif %}
   skip: True  # [win]
-  skip: True  # [cuda_compiler_version == "10.2"]
-  skip: True  # [cuda_compiler_version == "11.2"]
-  track_features:
-    - cudatoolkit               # [cuda_compiler_version != "None"]
-  string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
-  string: cpu_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }} # [cuda_compiler_version == "None"]
-  script_env:
-{% if cuda_major == 11 %}
-    - Kokkos_OPT_ARGS=-DKokkos_ARCH_KEPLER35=ON
-{% endif %}
-{% if cuda_major == 12 %}
-    - Kokkos_OPT_ARGS=-DKokkos_ARCH_MAXWELL50=ON
-{% endif %}
+  # skip: True  # [cuda_compiler_version == "10.2"]
+  # skip: True  # [cuda_compiler_version == "11.2"]
+  # track_features:
+  #   - cudatoolkit               # [cuda_compiler_version != "None"]
+  # string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
+  # string: cpu_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }} # [cuda_compiler_version == "None"]
+  string: cpu_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }}
+#   script_env:
+# {% if cuda_major == 11 %}
+#     - Kokkos_OPT_ARGS=-DKokkos_ARCH_KEPLER35=ON
+# {% endif %}
+# {% if cuda_major == 12 %}
+#     - Kokkos_OPT_ARGS=-DKokkos_ARCH_MAXWELL50=ON
+# {% endif %}
 
 
 requirements:
@@ -59,23 +60,21 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ stdlib("c") }}
-    - {{ compiler('cuda') }}    # [cuda_compiler_version != "None"]
-    - rust
+    # - {{ compiler('cuda') }}    # [cuda_compiler_version != "None"]
     - make
-    - cmake=3.28
+    - cmake
+
   host:
     - {{ mpi }}  # [mpi != 'nompi']
-    - cuda-version {{ environ.get("cuda_compiler_version") }}.*  # [cuda_compiler_version != "None"]
-    {% if cuda_major == 11 %}
-    - cudatoolkit {{ environ.get("cuda_compiler_version") }}.*
-    {% endif %}
-    {% if cuda_major == 12 %}
-    - nvidia/label/cuda-{{ environ.get("cuda_compiler_version") }}.*::cuda-toolkit # [cuda_compiler_version != "None"]
-    - cuda-cudart-dev
-    - cuda-driver-dev
-    {% endif %}
-    - libtorch  =*=cpu*  # [cuda_compiler_version == "None"]
-    - libtorch  =*=cuda{{ cuda_compiler_version | replace('.', '') }}*  # [cuda_compiler_version != "None"]
+    # - cuda-version {{ environ.get("cuda_compiler_version") }}.*  # [cuda_compiler_version != "None"]
+    # {% if cuda_major == 11 %}
+    # - cudatoolkit {{ environ.get("cuda_compiler_version") }}.*
+    # {% endif %}
+    # {% if cuda_major == 12 %}
+    # - nvidia/label/cuda-{{ environ.get("cuda_compiler_version") }}.*::cuda-toolkit # [cuda_compiler_version != "None"]
+    # - cuda-cudart-dev
+    # - cuda-driver-dev
+    # {% endif %}
     - fftw
     - fftw * {{ mpi_prefix }}_*
     - mkl # [linux]
@@ -84,12 +83,15 @@ requirements:
     # https://github.com/lammps/lammps/blob/8389e2eb8074712b6850b3bf25fd3c3852e36f10/src/PLUMED/fix_plumed.cpp#L80-L82
     - plumed >=2.4,<2.10 # [target_platform == linux-64]
     - plumed * {{ mpi_prefix }}_*  # [linux and mpi != 'nompi' and build_platform == target_platform]
+    - libmetatensor-torch >=0.7.5,<0.8.0
+    # always build against the CPU version of libtorch, we can still pick the
+    # cuda one at runtime
+    - libtorch * cpu*
   run:
     - {{ mpi }}  # [mpi != 'nompi']
-    - __cuda     # [cuda_compiler_version != "None"]
+    # - __cuda     # [cuda_compiler_version != "None"]
     - mkl        # [linux]
-    - libtorch  =*=cpu*  # [cuda_compiler_version == "None"]
-    - libtorch  =*=cuda{{ cuda_compiler_version | replace('.', '') }}*  # [cuda_compiler_version != "None"]
+    - libmetatensor-torch >=0.7.5,<0.8.0
 
 about:
   home: https://docs.metatensor.org/latest/index.html
