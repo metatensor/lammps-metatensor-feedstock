@@ -92,13 +92,12 @@ requirements:
     - libmetatensor-torch >=0.7.5,<0.8.0
 
 about:
-  home: https://docs.metatensor.org/latest/index.html
-  license: BSD-3-Clause
-  license_family: BSD
+  home: https://docs.metatensor.org/metatomic/latest/engines/lammps.html
+  license:  GPL-2.0-only
+  license_family: GPL
   summary: 'Metatensor-enabled version of LAMMPS'
-  description: |
-    Metatensor-enabled version of LAMMPS
-  doc_url: https://docs.metatensor.org/latest/atomistic/engines/lammps.html
+  description: Metatensor-enabled version of LAMMPS
+  doc_url: https://docs.metatensor.org/metatomic/latest/engines/lammps.html
   dev_url: https://github.com/metatensor/lammps
 
 extra:
