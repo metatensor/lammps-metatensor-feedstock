@@ -67,6 +67,8 @@ requirements:
     - make
     - cmake
     - pkg-config
+    - llvm-openmp  # [osx]
+    - libgomp      # [linux]
 
   host:
     - {{ mpi }}  # [mpi != 'nompi']
