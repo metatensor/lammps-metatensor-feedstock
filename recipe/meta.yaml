@@ -63,6 +63,7 @@ requirements:
     # - {{ compiler('cuda') }}    # [cuda_compiler_version != "None"]
     - make
     - cmake
+    - pkg-config
 
   host:
     - {{ mpi }}  # [mpi != 'nompi']
@@ -78,11 +79,7 @@ requirements:
     - fftw
     - fftw * {{ mpi_prefix }}_*
     - mkl # [linux]
-    - gsl
-    - voro
-    # https://github.com/lammps/lammps/blob/8389e2eb8074712b6850b3bf25fd3c3852e36f10/src/PLUMED/fix_plumed.cpp#L80-L82
-    - plumed >=2.4,<2.10 # [target_platform == linux-64]
-    - plumed * {{ mpi_prefix }}_*  # [linux and mpi != 'nompi' and build_platform == target_platform]
+    - plumed
     - libmetatensor-torch >=0.7.5,<0.8.0
     # always build against the CPU version of libtorch, we can still pick the
     # cuda one at runtime
@@ -91,6 +88,7 @@ requirements:
     - {{ mpi }}  # [mpi != 'nompi']
     # - __cuda     # [cuda_compiler_version != "None"]
     - mkl        # [linux]
+    - plumed
     - libmetatensor-torch >=0.7.5,<0.8.0
 
 about:
