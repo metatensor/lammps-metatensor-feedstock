@@ -1,5 +1,5 @@
 github:
-  user_or_org: abmazitov
+  user_or_org: metatensor
 
 github_actions:
   timeout_minutes: 1080

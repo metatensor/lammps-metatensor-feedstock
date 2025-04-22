@@ -83,8 +83,8 @@ requirements:
     - plumed * {{ mpi_prefix }}_*  # [linux and mpi != 'nompi' and build_platform == target_platform]
   run:
     - {{ mpi }}  # [mpi != 'nompi']
-    - __cuda  # [cuda_compiler_version != "None"]
-    - mkl # [linux]
+    - __cuda     # [cuda_compiler_version != "None"]
+    - mkl        # [linux]
     - libtorch  =*=cpu*  # [cuda_compiler_version == "None"]
     - libtorch  =*=cuda{{ cuda_compiler_version | replace('.', '') }}*  # [cuda_compiler_version != "None"]
 
@@ -101,4 +101,4 @@ about:
 extra:
   recipe-maintainers:
     - abmazitov
-
+    - Luthaf
