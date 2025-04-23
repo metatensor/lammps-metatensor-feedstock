@@ -8,19 +8,19 @@
 
 # {% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
 
-# # Use a higher build number for the CUDA variant, to ensure that it's
-# # preferred by conda's solver, and it's preferentially
-# # installed where the platform supports it.
+# Use a higher build number for prefered variants, to ensure that they are
+# picked first by conda's solver, and installed where the platform supports it.
+
 # {% if cuda_compiler_version != "None" %}
 # {% set build = build + 10000 %}
 # {% endif %}
 
-{% if mpi == 'mpich' %}
-  {% set build = build + 1000 %}
-{% endif %}
-
 {% if mpi == 'openmpi' %}
   {% set build = build + 2000 %}
+{% endif %}
+
+{% if mpi == 'mpich' %}
+  {% set build = build + 1000 %}
 {% endif %}
 
 {% if mpi != 'nompi' %}
@@ -64,6 +64,7 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ stdlib("c") }}
     # - {{ compiler('cuda') }}    # [cuda_compiler_version != "None"]
+    - {{ mpi }}       # [build_platform != target_platform and mpi == "openmpi"]
     - make
     - cmake
     - pkg-config
