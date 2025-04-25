@@ -3,7 +3,9 @@
 {% set conda_version = "{:%Y.%m.%d}".format(date) %}
 
 {% set build = 0 %}
-{% set git_rev = "ac1009d905c804856aee9b420e762fcfaf413f63" %}
+{% set git_rev = "ce972dbd45dd471f8f556d767162e70416711ec3" %}
+# increase this by 1 everytime you change the git commit above
+{% set git_rev_count = "0" %}
 
 
 # {% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
@@ -32,7 +34,7 @@
 
 package:
   name: lammps-metatensor
-  version: {{ conda_version }}
+  version: {{ conda_version }}.mts{{ git_rev_count }}
 
 source:
   git_url: https://github.com/metatensor/lammps.git
