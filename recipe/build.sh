@@ -1,21 +1,23 @@
 #!/bin/bash
 
 PLATFORM=$(uname)
-args=""
+cmake_args=""
 
 if [[ "$PLATFORM" == 'Darwin' ]]; then
   BUILD_OMP=OFF
-else
+elif [[ "$PLATFORM" == 'Linux' ]]; then
   BUILD_OMP=ON
   if [[ ${cuda_compiler_version} != "None" ]]; then
     CUDA_TOOLKIT_ROOT_DIR=$BUILD_PREFIX/targets/x86_64-linux
-    args=$args" -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON ${Kokkos_OPT_ARGS} -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR "
+    cmake_args="$cmake_args -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR"
+    cmake_args="$cmake_args -C ../cmake/presets/kokkos-cuda.cmake"
+    cmake_args="$cmake_args -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON "
+  else
+    # Make sure to link to `libtorch.so` and not just `libtorch_cpu.so`. This
+    # way, the code will try to load `libtorch_cuda.so` as well, enabling cuda
+    # device where available even when not using kokkos.
+    export LDFLAGS="-lm -ldl -Wl,--no-as-needed,$PREFIX/lib/libtorch.so -Wl,--as-needed"
   fi
-
-  # Make sure to link to `libtorch.so` and not just `libtorch_cpu.so`. This way,
-  # the code will try to load `libtorch_cuda.so` as well, enabling cuda device
-  # where available even when not using kokkos.
-  export LDFLAGS="-Wl,--no-as-needed,$PREFIX/lib/libtorch.so -Wl,--as-needed"
 fi
 
 if [ "${mpi}" == "nompi" ]; then
@@ -56,7 +58,7 @@ cmake -DCMAKE_INSTALL_PREFIX=$PREFIX \
       -DPKG_SPIN=ON \
       -DPKG_MPIIO=$ENABLE_MPI \
       -DPKG_EXTRA_PAIR=ON \
-      $args \
+      $cmake_args \
       ../cmake
 
 cmake --build . --parallel ${CPU_COUNT} -- VERBOSE=1

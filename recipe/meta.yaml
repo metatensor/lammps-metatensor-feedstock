@@ -31,6 +31,12 @@
   {% set mpi_prefix = "nompi" %}
 {% endif %}
 
+{% if cuda_compiler_version == None %}
+  {% set cuda_prefix = "cpu" %}
+{% else %}
+  {% set cuda_prefix = "cuda" + {{ cuda_compiler_version | replace('.', '') }} %}
+{% endif %}
+
 
 package:
   name: lammps-metatensor
@@ -48,11 +54,9 @@ build:
   # skip: True  # [cuda_compiler_version == "11.2"]
   # track_features:
   #   - cudatoolkit               # [cuda_compiler_version != "None"]
-  string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
-  string: cpu_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }} # [cuda_compiler_version == "None"]
-  # string: cpu_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }}
-  script_env:
-    - Kokkos_OPT_ARGS=-DKokkos_ARCH_MAXWELL50=ON # [cuda_compiler_version != "None"]
+  string: {{cuda_prefix}}_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }}
+  # script_env:
+  #   - Kokkos_OPT_ARGS=-DKokkos_ARCH_MAXWELL50=ON # [cuda_compiler_version != "None"]
 
 
 requirements:
