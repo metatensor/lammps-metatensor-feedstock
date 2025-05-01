@@ -7,10 +7,10 @@ if [[ "$PLATFORM" == 'Darwin' ]]; then
   BUILD_OMP=OFF
 else
   BUILD_OMP=ON
-  # if [[ ${cuda_compiler_version} != "None" ]]; then
-  #   CUDA_TOOLKIT_ROOT_DIR=$BUILD_PREFIX/targets/x86_64-linux
-  #   args=$args" -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON ${Kokkos_OPT_ARGS} -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR "
-  # fi
+  if [[ ${cuda_compiler_version} != "None" ]]; then
+    CUDA_TOOLKIT_ROOT_DIR=$BUILD_PREFIX/targets/x86_64-linux
+    args=$args" -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON ${Kokkos_OPT_ARGS} -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR "
+  fi
 
   # Make sure to link to `libtorch.so` and not just `libtorch_cpu.so`. This way,
   # the code will try to load `libtorch_cuda.so` as well, enabling cuda device
@@ -24,6 +24,10 @@ else
   ENABLE_MPI=TRUE
 fi
 
+# # Parallel and library
+# export LDFLAGS="-L$PREFIX/lib $LDFLAGS"
+# export LD_LIBRARY_PATH="$PREFIX/lib:$LD_LIBRARY_PATH"
+# export LD_LIBRARY_PATH="/usr/lib64:$LD_LIBRARY_PATH"
 
 mkdir build && cd build
 
