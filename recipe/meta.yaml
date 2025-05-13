@@ -2,22 +2,20 @@
 {% set date = datetime.datetime.strptime(version, "%d%b%Y") %}
 {% set conda_version = "{:%Y.%m.%d}".format(date) %}
 
-{% set build = 0 %}
+{% set build = 1 %}
 {% set git_rev = "12b2d26ed286fd4d8c4c7a340257aecb2e4b0e55" %}
 # increase this by 1 everytime you change the git commit above without also
 # changing the `version`
 {% set git_rev_count = "0" %}
 
-
-# {% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
-
 # Use a higher build number for prefered variants, to ensure that they are
 # picked first by conda's solver, and installed where the platform supports it.
+{% if cuda_compiler_version == "None" %}
+# pick CPU before GPU
+{% set build = build + 10000 %}
+{% endif %}
 
-# {% if cuda_compiler_version != "None" %}
-# {% set build = build + 10000 %}
-# {% endif %}
-
+# pick openmpi first, then mpich, then no-mpi variant
 {% if mpi == 'openmpi' %}
   {% set build = build + 2000 %}
 {% endif %}
@@ -32,6 +30,13 @@
   {% set mpi_prefix = "nompi" %}
 {% endif %}
 
+{% if cuda_compiler_version != "None" %}
+  {% set cuda_prefix = "cuda" + environ.get("cuda_compiler_version", "0.0").replace(".", "") %}
+  {% set cuda_prefix = cuda_prefix + "_kokkos_arch_" + environ.get("kokkos_arch", "") %}
+{% else %}
+  {% set cuda_prefix = "cpu" %}
+{% endif %}
+
 
 package:
   name: lammps-metatensor
@@ -41,24 +46,17 @@ source:
   git_url: https://github.com/metatensor/lammps.git
   git_rev: {{ git_rev }}
   depth: 1
+  patches:
+    - kokkos-log2-vectorsize.patch
+
 
 build:
   number: {{ build }}
   skip: True  # [win]
-  # skip: True  # [cuda_compiler_version == "10.2"]
-  # skip: True  # [cuda_compiler_version == "11.2"]
-  # track_features:
-  #   - cudatoolkit               # [cuda_compiler_version != "None"]
-  # string: cuda{{ cuda_compiler_version | replace('.', '') }}_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }}  # [cuda_compiler_version != "None"]
-  # string: cpu_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }} # [cuda_compiler_version == "None"]
-  string: cpu_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }}
-#   script_env:
-# {% if cuda_major == 11 %}
-#     - Kokkos_OPT_ARGS=-DKokkos_ARCH_KEPLER35=ON
-# {% endif %}
-# {% if cuda_major == 12 %}
-#     - Kokkos_OPT_ARGS=-DKokkos_ARCH_MAXWELL50=ON
-# {% endif %}
+  skip: True  # [cuda_compiler_version == "11.8"]
+  skip: True  # [linux and kokkos_arch == "None" and cuda_compiler_version != "None"]
+  skip: True  # [linux and kokkos_arch != "None" and cuda_compiler_version == "None"]
+  string: {{cuda_prefix}}_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }}
 
 
 requirements:
@@ -66,8 +64,8 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ stdlib("c") }}
-    # - {{ compiler('cuda') }}    # [cuda_compiler_version != "None"]
-    - {{ mpi }}       # [build_platform != target_platform and mpi == "openmpi"]
+    - {{ compiler('cuda') }}  # [cuda_compiler_version != "None"]
+    - {{ mpi }}               # [build_platform != target_platform and mpi == "openmpi"]
     - make
     - cmake
     - pkg-config
@@ -76,32 +74,27 @@ requirements:
 
   host:
     - {{ mpi }}  # [mpi != 'nompi']
-    # - cuda-version {{ environ.get("cuda_compiler_version") }}.*  # [cuda_compiler_version != "None"]
-    # {% if cuda_major == 11 %}
-    # - cudatoolkit {{ environ.get("cuda_compiler_version") }}.*
-    # {% endif %}
-    # {% if cuda_major == 12 %}
-    # - nvidia/label/cuda-{{ environ.get("cuda_compiler_version") }}.*::cuda-toolkit # [cuda_compiler_version != "None"]
-    # - cuda-cudart-dev
-    # - cuda-driver-dev
-    # {% endif %}
+    - cuda-version {{ cuda_compiler_version }} # [cuda_compiler_version != "None"]
+    - cuda-toolkit  {{ cuda_compiler_version }} # [cuda_compiler_version != "None"]
     - fftw * {{ mpi_prefix }}_*
     - plumed
-    - libmetatensor-torch >=0.7.5,<0.8.0
+    - libmetatensor-torch >=0.7.6,<0.8.0
     # always build against the CPU version of libtorch, we can still pick the
     # cuda one at runtime
     - libtorch * cpu*
   run:
     - {{ mpi }}  # [mpi != 'nompi']
-    # - __cuda     # [cuda_compiler_version != "None"]
     - plumed
-    - libmetatensor-torch >=0.7.5,<0.8.0
+    - libmetatensor-torch >=0.7.6,<0.8.0
+    - libmetatensor >=0.1.14,<0.2.0
+    - {{ pin_compatible('cuda-version', max_pin='x', min_pin='x') }}  # [cuda_compiler_version != "None"]
+    - libcufft  # [cuda_compiler_version != "None"]
 
 test:
   commands:
     - export OMPI_MCA_plm_rsh_agent=false
-    - lmp -h  # [mpi == 'nompi']
-    - mpirun -np 2 lmp -h  # [mpi != 'nompi']
+    - lmp -h  # [mpi == 'nompi' and cuda_compiler_version == "None"]
+    - mpirun -np 2 lmp -h  # [mpi != 'nompi' and cuda_compiler_version == "None"]
 
 about:
   home: https://docs.metatensor.org/metatomic/latest/engines/lammps.html
