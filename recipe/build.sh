@@ -1,7 +1,6 @@
 #!/bin/bash
 
 PLATFORM=$(uname)
-cmake_args=""
 
 if [[ "$PLATFORM" == 'Darwin' ]]; then
   BUILD_OMP=OFF
@@ -9,9 +8,9 @@ elif [[ "$PLATFORM" == 'Linux' ]]; then
   BUILD_OMP=ON
   if [[ ${cuda_compiler_version} != "None" ]]; then
     CUDA_TOOLKIT_ROOT_DIR=$BUILD_PREFIX/targets/x86_64-linux
-    cmake_args="$cmake_args -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR"
-    cmake_args="$cmake_args -C ../cmake/presets/kokkos-cuda.cmake"
-    cmake_args="$cmake_args -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON "
+    CMAKE_ARGS="$CMAKE_ARGS -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR"
+    CMAKE_ARGS="$CMAKE_ARGS -C ../cmake/presets/kokkos-cuda.cmake"
+    CMAKE_ARGS="$CMAKE_ARGS -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON "
   else
     # Make sure to link to `libtorch.so` and not just `libtorch_cpu.so`. This
     # way, the code will try to load `libtorch_cuda.so` as well, enabling cuda
@@ -54,7 +53,7 @@ cmake -DCMAKE_INSTALL_PREFIX=$PREFIX \
       -DPKG_SPIN=ON \
       -DPKG_MPIIO=$ENABLE_MPI \
       -DPKG_EXTRA_PAIR=ON \
-      $cmake_args \
+      $CMAKE_ARGS \
       ../cmake
 
 cmake --build . --parallel ${CPU_COUNT} -- VERBOSE=1

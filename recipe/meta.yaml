@@ -32,7 +32,7 @@
 {% endif %}
 
 {% if cuda_compiler_version != "None" %}
-  {% set cuda_prefix = "cuda{{ cuda_compiler_version | replace('.', '') }}" %}
+  {% set cuda_prefix = "cuda" + environ.get("cuda_compiler_version", "0.0").replace(".", "") %}
 {% else %}
   {% set cuda_prefix = "cpu" %}
 {% endif %}
@@ -82,14 +82,12 @@ requirements:
 
   host:
     - {{ mpi }}  # [mpi != 'nompi']
-    - cuda-version {{ environ.get("cuda_compiler_version") }}.*  # [cuda_compiler_version != "None"]
+    - cuda-version {{ cuda_compiler_version }} # [cuda_compiler_version != "None"]
+    # cudatoolkit was renamed to cuda-toolkit going from CUDA 11 to 12
     {% if cuda_major == 11 %}
-    - cudatoolkit {{ environ.get("cuda_compiler_version") }}.*
-    {% endif %}
-    {% if cuda_major == 12 %}
-    - nvidia/label/cuda-{{ environ.get("cuda_compiler_version") }}.*::cuda-toolkit # [cuda_compiler_version != "None"]
-    - cuda-cudart-dev
-    - cuda-driver-dev
+    - cudatoolkit  {{ cuda_compiler_version }}  # [cuda_compiler_version != "None"]
+    {% else %}
+    - cuda-toolkit  {{ cuda_compiler_version }} # [cuda_compiler_version != "None"]
     {% endif %}
     - fftw * {{ mpi_prefix }}_*
     - plumed
@@ -99,7 +97,6 @@ requirements:
     - libtorch * cpu*
   run:
     - {{ mpi }}  # [mpi != 'nompi']
-    - __cuda     # [cuda_compiler_version != "None"]
     - plumed
     - libmetatensor-torch >=0.7.5,<0.8.0
 
