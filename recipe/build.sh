@@ -10,7 +10,10 @@ elif [[ "$PLATFORM" == 'Linux' ]]; then
     CUDA_TOOLKIT_ROOT_DIR=$BUILD_PREFIX/targets/x86_64-linux
     CMAKE_ARGS="$CMAKE_ARGS -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR"
     CMAKE_ARGS="$CMAKE_ARGS -C ../cmake/presets/kokkos-cuda.cmake"
-    CMAKE_ARGS="$CMAKE_ARGS -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON "
+    CMAKE_ARGS="$CMAKE_ARGS -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON"
+
+    # silent a warning about "calling a constexpr __host__ function from a __host__ __device__ function"
+    CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_CXX_FLAGS=--expt-relaxed-constexpr"
   else
     # Make sure to link to `libtorch.so` and not just `libtorch_cpu.so`. This
     # way, the code will try to load `libtorch_cuda.so` as well, enabling cuda
