@@ -73,14 +73,17 @@ requirements:
     - cuda-toolkit  {{ cuda_compiler_version }} # [cuda_compiler_version != "None"]
     - fftw * {{ mpi_prefix }}_*
     - plumed
-    - libmetatensor-torch >=0.7.5,<0.8.0
+    - libmetatensor-torch >=0.7.6,<0.8.0
     # always build against the CPU version of libtorch, we can still pick the
     # cuda one at runtime
     - libtorch * cpu*
   run:
     - {{ mpi }}  # [mpi != 'nompi']
     - plumed
-    - libmetatensor-torch >=0.7.5,<0.8.0
+    - libmetatensor-torch >=0.7.6,<0.8.0
+    - libmetatensor >=0.1.14,<0.2.0
+    - {{ pin_compatible('cuda-version', max_pin='x', min_pin='x') }}  # [cuda_compiler_version != "None"]
+    - libcufft  # [cuda_compiler_version != "None"]
 
 test:
   commands:
