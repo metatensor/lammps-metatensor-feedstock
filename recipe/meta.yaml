@@ -85,8 +85,8 @@ requirements:
 test:
   commands:
     - export OMPI_MCA_plm_rsh_agent=false
-    - lmp -h  # [mpi == 'nompi']
-    - mpirun -np 2 lmp -h  # [mpi != 'nompi']
+    - lmp -h  # [mpi == 'nompi' and cuda_compiler_version == "None"]
+    - mpirun -np 2 lmp -h  # [mpi != 'nompi' and cuda_compiler_version == "None"]
 
 about:
   home: https://docs.metatensor.org/metatomic/latest/engines/lammps.html
