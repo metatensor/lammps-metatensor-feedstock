@@ -8,9 +8,6 @@
 # changing the `version`
 {% set git_rev_count = "0" %}
 
-
-{% set cuda_major = environ.get("cuda_compiler_version", "0.0").split(".")[0]|int %}
-
 # Use a higher build number for prefered variants, to ensure that they are
 # picked first by conda's solver, and installed where the platform supports it.
 {% if cuda_compiler_version != "None" %}
@@ -53,18 +50,8 @@ source:
 build:
   number: {{ build }}
   skip: True  # [win]
-  # FIXME: this is a temporary debug skip
-  skip: True  # [cuda_compiler_version == "11.8"]
-  # track_features:
-  #   - cudatoolkit               # [cuda_compiler_version != "None"]
+  skip: True # [cuda_compiler_version == "11.8"]
   string: {{cuda_prefix}}_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }}
-#   script_env:
-# {% if cuda_major == 11 %}
-#     - Kokkos_OPT_ARGS=-DKokkos_ARCH_KEPLER35=ON
-# {% endif %}
-# {% if cuda_major == 12 %}
-#     - Kokkos_OPT_ARGS=-DKokkos_ARCH_MAXWELL50=ON
-# {% endif %}
 
 
 requirements:
@@ -83,12 +70,7 @@ requirements:
   host:
     - {{ mpi }}  # [mpi != 'nompi']
     - cuda-version {{ cuda_compiler_version }} # [cuda_compiler_version != "None"]
-    # cudatoolkit was renamed to cuda-toolkit going from CUDA 11 to 12
-    {% if cuda_major == 11 %}
-    - cudatoolkit  {{ cuda_compiler_version }}  # [cuda_compiler_version != "None"]
-    {% else %}
     - cuda-toolkit  {{ cuda_compiler_version }} # [cuda_compiler_version != "None"]
-    {% endif %}
     - fftw * {{ mpi_prefix }}_*
     - plumed
     - libmetatensor-torch >=0.7.5,<0.8.0
