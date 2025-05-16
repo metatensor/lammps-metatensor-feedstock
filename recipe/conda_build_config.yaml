@@ -6,5 +6,16 @@ mpi:
   - openmpi
   - nompi
 
+# # nvidia-smi --query-gpu=compute_cap --format=csv,noheader
+kokkos_arch:       # [linux]
+  - None           # [linux]
+  # - AMPERE80       # [linux]
+  # - AMPERE86       # [linux]
+  - ADA89          # [linux]
+  - HOPPER90       # [linux]
+  # - BLACKWELL100   # [linux]
+  # - BLACKWELL120   # [linux]
+
+
 channel_targets:
   - metatensor main

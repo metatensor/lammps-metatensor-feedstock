@@ -30,6 +30,7 @@
 
 {% if cuda_compiler_version != "None" %}
   {% set cuda_prefix = "cuda" + environ.get("cuda_compiler_version", "0.0").replace(".", "") %}
+  {% set cuda_prefix = cuda_prefix + "_kokkos_arch_" + environ.get("kokkos_arch", "") %}
 {% else %}
   {% set cuda_prefix = "cpu" %}
 {% endif %}
@@ -50,7 +51,9 @@ source:
 build:
   number: {{ build }}
   skip: True  # [win]
-  skip: True # [cuda_compiler_version == "11.8"]
+  skip: True  # [cuda_compiler_version == "11.8"]
+  skip: True  # [linux and kokkos_arch == "None" and cuda_compiler_version != "None"]
+  skip: True  # [linux and kokkos_arch != "None" and cuda_compiler_version == "None"]
   string: {{cuda_prefix}}_h{{ PKG_HASH }}_{{ mpi_prefix }}_git.{{ git_rev[:7] }}_{{ PKG_BUILDNUM }}
 
 
@@ -59,8 +62,8 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ stdlib("c") }}
-    - {{ compiler('cuda') }}    # [cuda_compiler_version != "None"]
-    - {{ mpi }}       # [build_platform != target_platform and mpi == "openmpi"]
+    - {{ compiler('cuda') }}  # [cuda_compiler_version != "None"]
+    - {{ mpi }}               # [build_platform != target_platform and mpi == "openmpi"]
     - make
     - cmake
     - pkg-config

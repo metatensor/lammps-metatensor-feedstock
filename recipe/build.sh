@@ -12,7 +12,7 @@ elif [[ "$PLATFORM" == 'Linux' ]]; then
     CMAKE_ARGS="$CMAKE_ARGS -DFFT_KOKKOS=CUFFT"
     CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_CXX_COMPILER=../lib/kokkos/bin/nvcc_wrapper"
     CMAKE_ARGS="$CMAKE_ARGS -DKokkos_ENABLE_DEPRECATION_WARNINGS=OFF"
-    CMAKE_ARGS="$CMAKE_ARGS -DKokkos_ARCH_VOLTA70=ON"
+    CMAKE_ARGS="$CMAKE_ARGS -DKokkos_ARCH_${gpu_arch}=ON"
 
     # silent a warning about "calling a constexpr __host__ function from a __host__ __device__ function"
     CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_CXX_FLAGS=--expt-relaxed-constexpr"
