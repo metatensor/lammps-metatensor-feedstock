@@ -7,10 +7,12 @@ if [[ "$PLATFORM" == 'Darwin' ]]; then
 elif [[ "$PLATFORM" == 'Linux' ]]; then
   BUILD_OMP=ON
   if [[ ${cuda_compiler_version} != "None" ]]; then
-    CUDA_TOOLKIT_ROOT_DIR=$BUILD_PREFIX/targets/x86_64-linux
-    CMAKE_ARGS="$CMAKE_ARGS -DCUDA_TOOLKIT_ROOT_DIR=$CUDA_TOOLKIT_ROOT_DIR"
-    CMAKE_ARGS="$CMAKE_ARGS -C ../cmake/presets/kokkos-cuda.cmake"
     CMAKE_ARGS="$CMAKE_ARGS -DPKG_KOKKOS=ON -DKokkos_ENABLE_OPENMP=ON -DKokkos_ENABLE_CUDA=ON"
+    # inspired by lammps' `cmake/presets/kokkos-cuda.cmake`
+    CMAKE_ARGS="$CMAKE_ARGS -DFFT_KOKKOS=CUFFT"
+    CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_CXX_COMPILER=../lib/kokkos/bin/nvcc_wrapper"
+    CMAKE_ARGS="$CMAKE_ARGS -DKokkos_ENABLE_DEPRECATION_WARNINGS=OFF"
+    CMAKE_ARGS="$CMAKE_ARGS -DKokkos_ARCH_VOLTA70=ON"
 
     # silent a warning about "calling a constexpr __host__ function from a __host__ __device__ function"
     CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_CXX_FLAGS=--expt-relaxed-constexpr"
