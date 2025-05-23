@@ -204,182 +204,182 @@ jobs:
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archADA89mpimpich
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archADA89mpinompi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archADA89mpiopenmpi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archAMPERE80mpimpich
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archAMPERE80mpinompi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archAMPERE80mpiopenmpi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archAMPERE86mpimpich
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archAMPERE86mpinompi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archAMPERE86mpiopenmpi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archHOPPER90mpimpich
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archHOPPER90mpinompi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archHOPPER90mpiopenmpi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archNonempimpich
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archNonempinompi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archNonempiopenmpi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archVOLTA70mpimpich
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archVOLTA70mpinompi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilerNonecuda_compiler_versionNonecxx_compiler_version13kokkos_archVOLTA70mpiopenmpi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archADA89mpimpich
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archADA89mpinompi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archADA89mpiopenmpi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archAMPERE80mpimpich
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archAMPERE80mpinompi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archAMPERE80mpiopenmpi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archAMPERE86mpimpich
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archAMPERE86mpinompi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archAMPERE86mpiopenmpi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archHOPPER90mpimpich
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archHOPPER90mpinompi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archHOPPER90mpiopenmpi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archNonempimpich
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archNonempinompi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archNonempiopenmpi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archVOLTA70mpimpich
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archVOLTA70mpinompi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: linux_aarch64_c_compiler_version13cuda_compilercuda-nvcccuda_compiler_version12.6cxx_compiler_version13kokkos_archVOLTA70mpiopenmpi
             UPLOAD_PACKAGES: True
             os: ubuntu
-            runs_on: ['ubuntu-latest']
+            runs_on: ['ubuntu-24.04-arm']
             DOCKER_IMAGE: quay.io/condaforge/linux-anvil-aarch64:alma9
           - CONFIG: osx_64_mpimpich
             UPLOAD_PACKAGES: True
@@ -421,8 +421,10 @@ jobs:
         BINSTAR_TOKEN: ${{ secrets.BINSTAR_TOKEN }}
       shell: bash
       run: |
-        echo "::group::Configure binfmt_misc"
-        docker run --rm --privileged multiarch/qemu-user-static:register --reset --credential yes
+        if [[ "$(uname -m)" == "x86_64" ]]; then
+          echo "::group::Configure binfmt_misc"
+          docker run --rm --privileged multiarch/qemu-user-static:register --reset --credential yes
+        fi
         export flow_run_id="github_$GITHUB_RUN_ID"
         export remote_url="https://github.com/$GITHUB_REPOSITORY"
         export sha="$GITHUB_SHA"
